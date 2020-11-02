@@ -1,9 +1,6 @@
-import HTMLParser
-
-# be prepared to call this bs4
-from BeautifulSoup import BeautifulSoup as soupify
+from html.parser import HTMLParser
+from bs4 import BeautifulSoup as soupify
 import requests
-from requests import async
 
 class Story(object):
     def __init__(self, id):
@@ -28,7 +25,7 @@ class Story(object):
         r = requests.get(self.url)
         status = r.status_code // 100
         if status == 2:
-            self.fp = soupify(r.content)
+            self.fp = soupify(r.content, features="html.parser")
         elif status == 4:
             raise IOError("Client Error %s" %(r.status_code))
         elif status == 5:
@@ -47,7 +44,7 @@ class Story(object):
         self.author = self.author.getText()[1:]
 
         self.title = self.fp.find('title').getText()
-        self.title = HTMLParser.HTMLParser().unescape(self.title)
+        self.title = HTMLParser().unescape(self.title)
         # rip out " - Literotica.com"
         self.title, self.category = self.title[:-17].rsplit(' - ', 1)
 
@@ -88,16 +85,20 @@ class Story(object):
             self.fill_metadata()
         return self.title
 
-
     def get_text(self):
         if not self.num_pages:
             self.fill_metadata()
         if not self.text:
-            t = [async.get("%s?page=%s" %(self.url, x)) for x in xrange(1, self.num_pages+1)]
-            t = async.map(t)
-            t = [soupify(x.content) for x in t]
+            soups = []
+            for x in range(1, self.num_pages+1):
+                print(x)
+                resp = requests.get("%s?page=%s" %(self.url, x))
+                html = resp.content
+                s = soupify(html, features="html.parser")
+                soups.append(s)
+
             # WARNING: hard coded class name
             tofind = 'b-story-body-x x-r15'
-            t = [s.find('div', {'class': tofind}) for s in t]
+            t = [soup.find('div', {'class': tofind}) for soup in soups]
             self.text = [str(s) for s in t]
         return self.text
