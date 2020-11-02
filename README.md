@@ -1,13 +1,5 @@
-============
-literoticapi
-============
+# literotica_dl
 
-literoticapi is an API. For Literotica.
+# Credits
 
-Don't ask.
-
-Contributors
-============
-
-* hrroon
-
+This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [fuzzyfiend/pythoncookie](https://github.com/fuzzyfiend/pythoncookie) project template.
