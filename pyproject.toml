@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "literotica_dl"
+version = "0.0.1"
+description = "A tool to download stories from Literotica"
+authors = ["FuzzyFiend <50032576+fuzzyfiend@users.noreply.github.com>"]
+readme = "README.md"
+homepage = "https://github.com/fuzzyfiend/literotica_dl"
+repository = "https://github.com/fuzzyfiend/literotica_dl"
+exclude = ["tests"]
+include = ["LICENSE"]
+license = ""
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+]
+
+packages = [
+    { include = "literotica_dl"}
+]
+
+[tool.poetry.scripts]
+literotica_dl = 'literotica_dl.__main__:main'
+
+[tool.poetry.dependencies]
+python = "^3.6.9"
+bs4 = "^0.0.1"
+requests = "^2.24.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+pytest-asyncio = "*"
+flake8 = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
