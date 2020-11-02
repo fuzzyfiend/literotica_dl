@@ -40,8 +40,7 @@ class Story(object):
         # WARNING: hard coded class string
         tofind = "b-story-user-y x-r22"
         self.author = self.fp.find('span', {'class': tofind})
-        # that indexing is to get rid of a '!'
-        self.author = self.author.getText()[1:]
+        self.author = self.author.getText()
 
         self.title = self.fp.find('title').getText()
         self.title = HTMLParser().unescape(self.title)
