@@ -14,6 +14,15 @@ class Story(object):
         self.text = []
         self.title = ""
 
+    def _get_safe_filename(self):
+        title = self.get_title()
+        repl = {
+            ":": " -"
+        }
+        for k,v in repl.items():
+            title = title.replace(k, v)
+        return title
+
     def cache_first_page(self):
         '''
         Caches the first page of a story.
@@ -109,7 +118,8 @@ class Story(object):
         title = self.get_title()
         text = self.get_text()
 
-        f = open( ("%s.html" % str(title)), "w")
+        filename = self._get_safe_filename()
+        f = open( ("%s.html" % str(filename)), "w")
         f.write( "Title: %s<br/>Author: %s<br/>Category: %s<br/>Description: %s<br/><hr/><br/>" % ( str(title), str(author), str(cat), str(desc) ) )
         for t in text:
             f.write(str(t))
