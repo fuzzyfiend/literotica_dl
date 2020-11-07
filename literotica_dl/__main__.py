@@ -1,9 +1,11 @@
 import os
-import errno
+import re
 import asyncio
 import logging
 import argparse
+# modules
 from .classes.Story import Story as lit_story
+from .classes.Author import Author as lit_author
 
 handler = logging.StreamHandler()
 handler.setFormatter(
@@ -17,13 +19,23 @@ log = logging.getLogger("literotica_dl")
 log.setLevel(logging.INFO)
 log.addHandler(handler)
 
-def returnStub(stub):
+def returnStoryStub(stub):
     # if literotica.com in arg, trim down to the url stub
     if "literotica.com" in stub:
         pattern = "/s/"
         x = stub.find(pattern)
         return stub[x+len(pattern):]
     else:
+        return stub
+
+def returnAuthorUID(stub):
+    pattern = r'.*uid=(.*)&'
+    # if literotica.com in arg, trim down to the url stub
+    if "literotica.com/stories/memberpage" in stub:
+        match = re.search(pattern, stub)
+        return match.group(1)
+    else:
+        assert str.isdigit(stub)
         return stub
 
 def main():
@@ -54,11 +66,9 @@ def main():
     os.chdir(args.output)
 
     try:
-        pass
         if args.story:
-
             stub = args.story
-            stub = returnStub(stub)
+            stub = returnStoryStub(stub)
 
             s = lit_story(id=stub)
             author = s.get_author()
@@ -74,7 +84,10 @@ def main():
             f.close()
 
         if args.author:
-            pass
+            stub = args.author
+            stub = returnAuthorUID(stub)
+            a = lit_author(uid=stub)
+            a.download_stories()
 
     except:
         raise
