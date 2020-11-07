@@ -90,7 +90,7 @@ class Story(object):
         if not self.text:
             soups = []
             for x in range(1, self.num_pages+1):
-                print(x)
+                print("Handling (%s) page %d/%d" % (self.get_title(), x, self.num_pages))
                 resp = requests.get("%s?page=%s" %(self.url, x))
                 html = resp.content
                 s = soupify(html, features="html.parser")
