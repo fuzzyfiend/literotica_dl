@@ -4,7 +4,7 @@ import requests
 
 class Story(object):
     def __init__(self, id):
-        self.url = "http://www.literotica.com/s/%s" %(id)
+        self.url = "https://www.literotica.com/s/%s" %(id)
         # first page, full of useful stuff yo
         self.fp = ""
         self.author = ""

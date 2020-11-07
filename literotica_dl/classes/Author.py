@@ -1,10 +1,10 @@
 import os
 
-# be prepared to call this bs4
-from BeautifulSoup import BeautifulSoup as soupify
+from html.parser import HTMLParser
+from bs4 import BeautifulSoup as soupify
 import requests
 
-from story import Story
+from .Story import Story
 
 class Author(object):
     def __init__(self, uid):
@@ -12,7 +12,7 @@ class Author(object):
             int(uid)
         except ValueError:
             raise ValueError("invalid author uid '%s'" %(uid))
-        self.url = "http://literotica.com/stories/memberpage.php?uid=%s" %(uid)
+        self.url = "https://literotica.com/stories/memberpage.php?uid=%s" %(uid)
         self.stories = []
         self.name = ""
 
@@ -20,7 +20,7 @@ class Author(object):
         r = requests.get("%s&page=submissions" %(self.url))
         status = r.status_code // 100
         if status == 2:
-            self.p = soupify(r.content)
+            self.p = soupify(r.content, features="html.parser")
         elif status == 4:
             raise IOError("Client Error %s" %(r.status_code))
         elif status == 5:
@@ -51,7 +51,7 @@ class Author(object):
         if not self.stories:
             self.get_stories()
         for story in self.stories:
-            print story.get_title()
+            print(story.get_title())
 
     def download_stories(self):
         try:
