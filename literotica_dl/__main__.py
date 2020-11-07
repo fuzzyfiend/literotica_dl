@@ -3,6 +3,7 @@ import errno
 import asyncio
 import logging
 import argparse
+from .classes.Story import Story as lit_story
 
 handler = logging.StreamHandler()
 handler.setFormatter(
@@ -54,6 +55,27 @@ def main():
 
     try:
         pass
+        if args.story:
+
+            stub = args.story
+            stub = returnStub(stub)
+
+            s = lit_story(id=stub)
+            author = s.get_author()
+            cat = s.get_category()
+            desc = s.get_description()
+            title = s.get_title()
+            text = s.get_text()
+            
+            f = open( ("%s.html" % str(title)), "w")
+            f.write( "Title: %s<br/>Author: %s<br/>Category: %s<br/>Description: %s<br/><hr/><br/>" % ( str(title), str(author), str(cat), str(desc) ) )
+            for t in text:
+                f.write(str(t))
+            f.close()
+
+        if args.author:
+            pass
+
     except:
         raise
     finally:
