@@ -101,3 +101,17 @@ class Story(object):
             t = [soup.find('div', {'class': tofind}) for soup in soups]
             self.text = [str(s) for s in t]
         return self.text
+
+    def writeToDisk(self):
+        author = self.get_author()
+        cat = self.get_category()
+        desc = self.get_description()
+        title = self.get_title()
+        text = self.get_text()
+
+        f = open( ("%s.html" % str(title)), "w")
+        f.write( "Title: %s<br/>Author: %s<br/>Category: %s<br/>Description: %s<br/><hr/><br/>" % ( str(title), str(author), str(cat), str(desc) ) )
+        for t in text:
+            f.write(str(t))
+        f.close()
+

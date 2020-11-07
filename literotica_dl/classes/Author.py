@@ -61,18 +61,4 @@ class Author(object):
         os.chdir(self.get_name())
         self.get_stories()
         for story in self.stories:
-            f = open('%s - %s.html' %(story.get_title(), story.get_category()), 'w')
-            f.write('<hr />'.join(story.get_text()))
-            f.close()
-
-
-DEBUG = True
-
-if __name__ == "__main__":
-    if DEBUG:
-        for uid in (
-            868670,
-            534634,
-        ):
-            a = Author(uid)
-            a.download_stories()
+            story.writeToDisk()
