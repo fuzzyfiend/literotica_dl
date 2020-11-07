@@ -16,6 +16,15 @@ log = logging.getLogger("literotica_dl")
 log.setLevel(logging.INFO)
 log.addHandler(handler)
 
+def returnStub(stub):
+    # if literotica.com in arg, trim down to the url stub
+    if "literotica.com" in stub:
+        pattern = "/s/"
+        x = stub.find(pattern)
+        return stub[x+len(pattern):]
+    else:
+        return stub
+
 def main():
     # Handle arguments
     parser = argparse.ArgumentParser()
@@ -29,16 +38,24 @@ def main():
     # Create output directory if it doesn't exist
     try:
         os.makedirs(args.output)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            pass
-        else:
-            raise e
-    
+    except FileExistsError:
+        pass
+
     # argument checking
     if args.author is None and args.story is None:
         msg="One of (-a / -s) flags must be specified"
         log.error(msg)
         raise RuntimeError(msg)
 
-    return
+    # Store current directory and return on end
+    cwd = os.getcwd()
+    # change into output directory
+    os.chdir(args.output)
+
+    try:
+        pass
+    except:
+        raise
+    finally:
+        os.chdir(cwd)
+        return
