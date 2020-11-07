@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "literotica_dl"
-version = "0.0.2"
+version = "0.0.3"
 description = "A tool to download stories from Literotica"
 authors = ["FuzzyFiend <50032576+fuzzyfiend@users.noreply.github.com>"]
 readme = "README.md"

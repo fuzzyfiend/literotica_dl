@@ -1,6 +1,18 @@
 # literotica_dl
 A tool to download stories from Literotica.
 
+# Installation
+I highly recommend you use pipx
+```sh
+pipx install literotica_dl
+```
+otherwise you can use pip
+```sh
+pipx install literotica_dl
+```
+PyPI: https://github.com/fuzzyfiend/literotica_dl
+
+# Details
 You must specify whether to download stories (-s) or author works (-a).
 * Stories are identified as the url stub following the /s/ directory in the url
     * https://www.literotica.com/s/a-my-name-is-alice
